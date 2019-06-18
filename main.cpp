@@ -1,12 +1,15 @@
 #include <QCoreApplication>
 #include <iostream>
+#include <list.cpp>
 using namespace std;
 
 int *foo(int *oldarr, int n, int q);
 
 int main(int argc, char *argv[])
-{
-    QCoreApplication a(argc, argv);
+{   QCoreApplication a(argc, argv);
+
+    List b;
+
 
     int n = 1;
     int q;
