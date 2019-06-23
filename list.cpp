@@ -19,23 +19,29 @@ private:
         }
     };
 
+
     int size;
+
 public:
     Element *firstElement;
-    void addElement(int data);
-    void addElement2(int data);
+    int operator[](const int index);
+    void push_back(int data);
+    void push_front(int data);
     int GetSize() {return size;}
+    void insert(int pos, int data);
 
     List ()
     {
       size = 0;
       firstElement = nullptr;
     }
+
+
 };
 
-void List::addElement2(int data)
+void List::push_back(int data)
 {
-  if(firstElement->next == nullptr)
+  if(firstElement == nullptr)
   {
      firstElement = new Element (data);
   }
@@ -52,21 +58,52 @@ void List::addElement2(int data)
 size++;
 }
 
-void List::addElement(int data)
+void List::push_front(int data)
 {
-    if (firstElement == nullptr)
-    {
-       firstElement = new Element(data);
-    }
-    else
-    {
-      Element *buffer = firstElement;
-      while(buffer->next != nullptr)
-      {
-        buffer = buffer->next;
-
-      }
-        buffer->next = new Element(data);
-    }
-   size ++;
+    firstElement->next = new Element(firstElement->data, firstElement->next);
+    firstElement->data = data;
+    size++;
 }
+
+ void List::insert(int pos, int data)
+ {
+
+     int counter = 1;
+
+     if(firstElement == nullptr && pos == 0)
+     {
+        firstElement = new Element (data);
+     }
+     else if (pos == 0)
+     {
+         push_front(data);
+         size--;
+     }
+
+     else
+     {
+         Element *buffer = firstElement;
+         while(counter != pos)
+         {
+             buffer = buffer->next;
+             counter++;
+         }
+         buffer->next = new Element(data, buffer->next);
+     }
+     size++;
+ }
+
+int List::operator[](const int index)
+ {
+     int counter = 0;
+     Element *buffer = firstElement;
+     if (buffer != nullptr)
+     {
+         while(counter != index)
+         {
+             buffer = buffer->next;
+             counter++;
+         }
+         return buffer->data;
+     }
+ }

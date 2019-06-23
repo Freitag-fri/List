@@ -13,15 +13,17 @@ int main(int argc, char *argv[])
 
     List b;
 
-    b.addElement2(5);
-    b.addElement2(10);
-    b.addElement2(15);
+    b.push_back(5);
+    b.push_back(10);
+    b.push_back(15);
+    b.push_back(20);
+    b.push_front(1);
+    b.insert(0, 6);
 
-    for(int i = 0; i < b.GetSize(); i++)
+    for (int i = 0; i < b.GetSize(); i++)
     {
-      cout << b.firstElement;
+       cout << b[i] << " ";
     }
-
 
 //    int n = 1;
 //    int q;
@@ -45,15 +47,15 @@ int main(int argc, char *argv[])
 
 
 
-int *foo(int *oldarr, int n, int q)
-{
-    int *newArr = new int[n + 1];
-    for (int i = 0; i < n; i++)
-    {
-        newArr[i] =  oldarr[i];
-    }
-    newArr[n] = q;
+//int *foo(int *oldarr, int n, int q)
+//{
+//    int *newArr = new int[n + 1];
+//    for (int i = 0; i < n; i++)
+//    {
+//        newArr[i] =  oldarr[i];
+//    }
+//    newArr[n] = q;
 
-    delete [] oldarr;
-    return newArr;
-}
+//    delete [] oldarr;
+//    return newArr;
+//}
