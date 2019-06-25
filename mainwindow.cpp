@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     b.push_back(10);
     b.push_back(15);
     b.push_back(20);
+    b.push_back(25);
     ui->lineEdit->setValidator(new QRegExpValidator(QRegExp("[0-9]*")));
 }
 
