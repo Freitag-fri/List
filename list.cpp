@@ -42,15 +42,16 @@ public:
 
 };
 
-void List::clear()
+void List::clear()              //переписать
 {
     Element *temp;
     while(true)
     {
      temp = firstElement->next;
      delete firstElement;
-     if (temp == nullptr)  break;
      firstElement = temp;
+     if (temp == nullptr)
+         break;
     }
     size = 0;
 }
@@ -113,11 +114,19 @@ void List::push_back(int data)
     size++;
 }
 
-void List::push_front(int data)
+void List::push_front(int data)             ////исправить
 {
-    firstElement->next = new Element(firstElement->data, firstElement->next);
-    firstElement->data = data;
-    size++;
+    if(firstElement == nullptr)
+    {
+        firstElement = new Element (data);
+    }
+    else
+    {
+        firstElement->next = new Element(firstElement->data, firstElement->next);
+        firstElement->data = data;
+        size++;
+    }
+
 }
 
  void List::insert(int pos, int data)
