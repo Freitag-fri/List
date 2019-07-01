@@ -16,11 +16,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->addItem("Push_front");    //1
     ui->comboBox->addItem("Pop_back");      //2
     ui->comboBox->addItem("Pop_front");     //3
-    ui->comboBox->addItem("Insert");        //4
-    ui->comboBox->addItem("Clear");         //5
+    ui->comboBox->addItem("Insert");        //4     добавление элемента на позицию
+    ui->comboBox->addItem("Erase");         //5
+    ui->comboBox->addItem("Size");          //6
+    //ui->comboBox->addItem("Clear");         //5
     b.push_back(5);
     b.push_back(10);
     b.push_back(15);
+    b.push_back(20);
 
     ui->lineEdit->setValidator(new QRegExpValidator(QRegExp("[0-9]*")));    //возможность вписывать только цифры
     ui->position->setValidator(new QRegExpValidator(QRegExp("[0-9]*")));
@@ -35,15 +38,21 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    int n = ui->lineEdit->text().toInt();
-    int pos = ui->position->text().toInt();
-    ChoiceList(ui->comboBox->currentIndex(), n, pos);    //определение опперации, вводимое число
-    ui->textEdit->clear();                          //очистка поля
+    int n = ui->lineEdit->text().toInt();               //добавляемый элемент
+    int pos = ui->position->text().toInt();             //позиция
+    int operation = ui->comboBox->currentIndex();       //комманда для выполнения
+    ChoiceList(operation, n, pos);
+    ui->textEdit->clear();                              //очистка поля
 
-    for (int i = 0; i < b.GetSize(); i++)
+    if (operation == 6)
+        ui->textEdit->insertPlainText(QString::number(b.GetSize()));
+    else
     {
-        ui->textEdit->insertPlainText(QString::number(b[i]));
-        ui->textEdit->insertPlainText(" ");
+        for (int i = 0; i < b.GetSize(); i++)
+        {
+            ui->textEdit->insertPlainText(QString::number(b[i]));
+            ui->textEdit->insertPlainText(" ");
+        }
     }
 
 }
@@ -57,9 +66,9 @@ void MainWindow::ChoiceList(int n, int q, int pos)
          return;
         }
     }
-    if(n == 4 && (ui->lineEdit->text() == "" || ui->position->text() == ""))
+    if( n == 4 && (ui->lineEdit->text() == "" || ui->position->text() == ""))
     {
-     QMessageBox::information(NULL,QObject::tr("Информация"),tr("Введите данные и позицию"));
+     QMessageBox::information(NULL,QObject::tr("Информация"),tr("Введите данные или позицию"));
      return;
     }
 
@@ -79,20 +88,40 @@ void MainWindow::ChoiceList(int n, int q, int pos)
         b.insert(pos, q);
 
     else if(n == 5)
-        b.clear();
+        b.Erase(pos);
+
+//    else if(n == 5)
+//        b.clear();
 }
 
 void MainWindow::on_comboBox_activated(const QString &arg1)
 {
-    int n = ui->comboBox->currentIndex();
-     if(n != 4)
+    int oper = ui->comboBox->currentIndex();
+
+    if(oper != 4 && oper != 5)
      {
+       ui->position->clear();
        ui->position->setFocusPolicy(Qt::NoFocus);
        ui->label_2->setText("Position ");
      }
-     if(n == 4)
+
+     if(oper == 4 || oper == 5)
      {
        ui->position->setFocusPolicy(Qt::StrongFocus);
        ui->label_2->setText("Position*");
+     }
+
+
+     if (oper == 6 || oper == 2 || oper == 3 || oper == 5)
+     {
+         ui->lineEdit->clear();
+         ui->lineEdit->setFocusPolicy(Qt::NoFocus);
+         ui->label->setText("Data ");
+     }
+
+     if (oper == 0 || oper == 1|| oper == 4)
+     {
+         ui->lineEdit->setFocusPolicy(Qt::StrongFocus);
+         ui->label->setText("Data* ");
      }
 }
