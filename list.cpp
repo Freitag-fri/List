@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -33,6 +34,7 @@ public:
     void pop_front();
     void clear();
     void Erase(int pos);
+    void Save();
 
     List ()
     {
@@ -130,9 +132,14 @@ void List::push_front(int data)             ////исправить
 
 }
 
-void List::Erase(int pos)
+void List::Erase(int pos)           //удалить элемент с нужной позициии
 {
-    if(pos < GetSize())
+    if (pos == 0)
+        pop_front();
+    else if (pos == GetSize() -1)
+        pop_back();
+
+    else if(pos < GetSize())
     {
         int counter = 0;
 
@@ -140,21 +147,16 @@ void List::Erase(int pos)
         Element *temp;
         while(counter != pos)
         {
+            temp =  buffer;
             buffer = buffer->next;
             counter++;
-            temp =  buffer->next;
+            //temp =  buffer->next;
         }
+        temp->next = buffer->next;
         delete buffer;
         size--;
 
-        counter = 0;
-        buffer = firstElement;
-        while(counter != pos --)
-        {
-            buffer = buffer->next;
-            counter++;
-        }
-        buffer->next = temp;
+
     }
 }
 
