@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <list.cpp>
-//void ChoiceList(int n, int q, int pos);
+
 List b;
 
 
@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->addItem("Erase");         //5
     ui->comboBox->addItem("Size");          //6
     ui->comboBox->addItem("Save");          //7
-    //ui->comboBox->addItem("Clear");         //5
+    ui->comboBox->addItem("Clear");         //8
     b.push_back(5);
     b.push_back(10);
     b.push_back(15);
@@ -45,7 +45,7 @@ void MainWindow::on_pushButton_clicked()
     ChoiceList(operation, n, pos);
     ui->textEdit->clear();                              //очистка поля
 
-    if (operation == 6)
+    if (operation == b.OpSize)
         ui->textEdit->insertPlainText(QString::number(b.GetSize()));
     else
     {
@@ -59,7 +59,7 @@ void MainWindow::on_pushButton_clicked()
 }
 void MainWindow::ChoiceList(int oper, int data, int pos)
 {
-    if (oper == 0 || oper == 1)
+    if (oper == b.OpPush_back || oper == b.OpPush_front)
     {
         if(ui->ListData->text() == "")
         {
@@ -67,69 +67,69 @@ void MainWindow::ChoiceList(int oper, int data, int pos)
             return;
         }
     }
-    else if(oper == 4 && (ui->ListData->text() == "" || ui->position->text() == ""))
+    else if(oper == b.OpInsert && (ui->ListData->text() == "" || ui->position->text() == ""))
     {
         QMessageBox::information(NULL,QObject::tr("Информация"),tr("Введите данные или позицию"));
         return;
     }
-    else if(oper == 5 && ui->position->text() == "")
+    else if(oper == b.OpErase && ui->position->text() == "")
     {
         QMessageBox::information(NULL,QObject::tr("Информация"),tr("Позицию для удаления"));
         return;
     }
 
 
-    if (oper == 0)
+    if (oper == b.OpPush_back)
         b.push_back(data);
 
-    else if (oper == 1)
+    else if (oper == b.OpPush_front)
         b.push_front(data);
 
-    else if (oper == 2)
+    else if (oper == b.OpPop_back)
         b.pop_back();
 
-    else if(oper == 3)
+    else if(oper == b.OpPop_front)
         b.pop_front();
 
-    else if(oper == 4)
+    else if(oper == b.OpInsert)
         b.insert(pos, data);
 
-    else if(oper == 5)
+    else if(oper == b.OpErase)
         b.Erase(pos);
 
-    else if(oper == 7)
+    else if(oper == b.OpSave)
         b.Save();
 
-    //    else if(n == 5)
-    //        b.clear();
+    else if(oper == b.OpClear)
+        b.clear();
 }
 
 void MainWindow::on_comboBox_activated(const QString &arg1)
 {
     int index = ui->comboBox->currentIndex();
 
-    if(index != 4 && index != 5)
+    if(index != b.OpInsert && index != b.OpErase)
     {
         ui->position->clear();
         ui->position->setFocusPolicy(Qt::NoFocus);
         ui->label_2->setText("Position ");
     }
 
-    if(index == 4 || index == 5)
+    if(index == b.OpInsert || index == b.OpErase)
     {
         ui->position->setFocusPolicy(Qt::StrongFocus);
         ui->label_2->setText("Position*");
     }
 
 
-    if (index == 6 || index == 2 || index == 3 || index == 5)
+    if (index == b.OpSize || index == b.OpPop_back || index == b.OpPop_front || index == b.OpErase || index == b.OpClear)
     {
         ui->ListData->clear();
         ui->ListData->setFocusPolicy(Qt::NoFocus);
         ui->label->setText("Data ");
     }
 
-    if (index == 0 || index == 1|| index == 4)
+    if (index == b.OpPush_back || index == b.OpPush_front|| index == b.OpInsert)
     {
         ui->ListData->setFocusPolicy(Qt::StrongFocus);
         ui->label->setText("Data* ");

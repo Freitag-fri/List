@@ -6,7 +6,6 @@ using namespace std;
 class List
 {
 private:
-
     class Element
     {
     public:
@@ -36,6 +35,7 @@ public:
     void Erase(int pos);
     void Save();
 
+    enum operation {OpPush_back, OpPush_front, OpPop_back, OpPop_front, OpInsert, OpErase, OpSize, OpSave, OpClear};
     List ()
     {
         size = 0;
