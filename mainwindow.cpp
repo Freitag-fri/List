@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <list.cpp>
 
+
 List b;
 
 
